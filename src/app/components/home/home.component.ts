@@ -12,18 +12,18 @@ export class HomeComponent implements OnInit {
 
   constructor(public monthService: MonthService) { }
 
-  public weekDaysName : string[] = [];
-  public curr_date: number;
-  public curr_month: number;
-  public curr_year: number;
-  public daysInMonth: string[][] = [];
+  public weekDaysName : string[] = []; //names of the week days
+  public curr_date: number; //current date day
+  public curr_month: number; //current date month
+  public curr_year: number; //current date year
+  public daysInMonth: string[][] = []; //this is a 2d array which contains the days for the currently selected month
 
-  public curr_month_name : string;
-  public selected_month : any;
+  public curr_month_name : string; //current month name
 
-  public holiday_class: String[][] = [];
+  public holiday_class: String[][] = []; //equivalent in size to daysInMonth, it contains class name holiday if that day is a holiday
 
   ngOnInit(): void {
+    //first push all weekday names
     this.weekDaysName.push("Mo");
     this.weekDaysName.push("Tu");
     this.weekDaysName.push("We");
@@ -32,15 +32,17 @@ export class HomeComponent implements OnInit {
     this.weekDaysName.push("Sa");
     this.weekDaysName.push("Su");
 
+    //extract current date
     var d = new Date();
     this.curr_date = d.getDate();
     this.curr_month = d.getMonth()+1;
     this.curr_year = d.getFullYear();
     this.curr_month_name = this.month_switcher(this.curr_month);
 
+    //configure the daysInMonth list
     this.configureMonthDays();
 
-    console.log(HolidayJson);
+    //console.log(HolidayJson);
   }
 
   private month_switcher(month:number):string{
@@ -61,6 +63,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  //On clicking next month
   public onNextMonth(): void {
     this.curr_month++;
     if (this.curr_month == 13) {
@@ -71,6 +74,7 @@ export class HomeComponent implements OnInit {
     this.configureMonthDays();
   }
 
+  //On clicking previous month
   public onPreviousMonth() : void{
     this.curr_month--;
     if (this.curr_month < 1) {
@@ -81,7 +85,7 @@ export class HomeComponent implements OnInit {
     this.configureMonthDays();
   }
 
-
+  //Check if a given day and the currently selected month year are holiday
   private checkHoliday(day: String):Boolean{
     if( Number(day)<=9 )
       day = '0' + day;
@@ -97,6 +101,7 @@ export class HomeComponent implements OnInit {
       return false
   }
 
+  //Call servise to obtain the main 2d array. In it, rows are week, columns are days
   public configureMonthDays(){
     this.daysInMonth = this.monthService.prepare_list_days(this.curr_month, this.curr_year)
     for(let i=0; i<7; i++){
@@ -120,6 +125,7 @@ export class HomeComponent implements OnInit {
     }    
   }
 
+  //Uppon changing month this is called
   public monthChange(event: any){
     //console.log(this.curr_month);
     console.log(event)
@@ -129,11 +135,13 @@ export class HomeComponent implements OnInit {
     this.configureMonthDays();
   }
 
+  //Uppon changing year this is called
   public yearChange(newYear: any) {
     this.curr_year = newYear;
     this.configureMonthDays();
   }
 
+  //Uppon changing date this is called
   public dateChange(event: any) {
     //console.log(event.target.value);
     this.curr_year = Number(event.target.value.substring(0,4));

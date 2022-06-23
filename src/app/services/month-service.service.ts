@@ -8,6 +8,9 @@ export class MonthService {
 
   constructor() { }
 
+  //This servise will return the main daysInMonth array. For that we need to be able to tell for a given date which day in the week is it.
+  //I followed an algorithm which suggests some computation for year and month code to obtain the week day.
+
   //Calculate year code
   private number_of_last_two_digits(x:number): number {
     if (x<1800)
@@ -31,17 +34,6 @@ export class MonthService {
 
   //Calculate month code
 
-  /*
-  def month_code(M,Y):
-    return_code=switcher.get(M)
-    if return_code==-1:
-        if M=='January':
-            return january_leap(Y)
-        else:
-            return february_leap(Y)
-    else:
-        return return_code
-  */
   private is_leap_year(year:number):boolean{
     if (year%100==0 && year%400==0)
       return true
@@ -106,6 +98,7 @@ export class MonthService {
     }
   }
     
+  //The following function returns the day in week for the given day month year
   public day_of_week(day:number, month:number, year:number) : number {
     //console.log(day+" "+month+" "+year);
     //console.log("Year code" + this.year_code(year));
@@ -135,10 +128,11 @@ export class MonthService {
   
 
 
+  //This is the main function called from the component.
+  //It starts off by checking what week-day the first day in the month is and adds empty string in the 2d array at the beggining and end.
   public prepare_list_days(month:number, year:number) {
     let result = [];
     let first_day = this.day_of_week(1, month, year);
-    //console.log("First day:",first_day);
     
     let started = false;
     let counter = 1;
