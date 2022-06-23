@@ -1,0 +1,18 @@
+.selectMonth,
+.selectYear,
+.selectDate {
+    width: 100px;
+    height: 30px;
+    margin: 10px;
+}
+
+.form{
+    text-align:center;
+    font-size: large;
+    margin-top: 20px;
+
+    border-width:2px;
+    border-style:solid;
+    border-color:white;
+    border-radius: 5px;
+}
